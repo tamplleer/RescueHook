@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">rescue hook</string>
+    <string name="example_long"><b>Terms and Conditions</b> \n\nconsectetur
+        adipiscing elit. Nam venenatis convallis ante, at suscipit orci. Donec id nibh lacus.
+        Nullam sodales vitae neque in auctor. In at mauris scelerisque, eleifend magna ac, ornare
+        justo. Maecenas tincidunt, justo et mollis pharetra, urna quam fermentum elit, quis interdum
+        leo augue vel sem. Suspendisse efficitur metus sed justo finibus, eget ornare odio consequat.
+        Praesent sed dapibus felis. Morbi tincidunt leo vitae justo vehicula tempus.\n\n\nNunc lacinia
+        mauris velit, vel dignissim tortor tristique in. Nunc dapibus massa ac lectus aliquet,
+        ut suscipit urna tempus. Nullam in purus dui. Nam in diam ullamcorper, tristique metus eget,
+        consectetur mi. Praesent eget magna iaculis, fermentum odio vitae, dapibus urna. Nullam
+        scelerisque lacus purus, non imperdiet ipsum euismod et. Donec eu vulputate elit, eget
+        cursus magna. Phasellus ornare, enim a ultricies tincidunt, neque nunc malesuada leo,
+        non pellentesque arcu tortor sit amet arcu. Donec id nibh lacus. Nullam sodales vitae neque
+        in auctor. Donec id nibh lacus. Nullam sodales vitae neque in auctor. In at mauris scelerisque,
+        eleifend magna ac, ornare justo. Maecenas tincidunt, justo et mollis pharetra, urna quam
+        fermentum elit, quis interdum leo augue vel sem. Nunc lacinia mauris velit, vel dignissim
+        tortor tristique in. Nunc dapibus massa ac lectus aliquet, ut suscipit urna tempus.
+        Nullam in purus dui. Nam in diam ullamcorper, tristique metus eget, consectetur mi.
+        Nunc lacinia mauris velit, vel dignissim tortor tristique in. Nunc dapibus massa ac lectus
+        aliquet, ut suscipit urna tempus. Nullam in purus dui. Nam in diam ullamcorper, tristique
+        metus eget, consectetur mi.  </string>
 </resources>
