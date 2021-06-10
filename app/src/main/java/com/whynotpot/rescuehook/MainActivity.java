@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mMainViewModel;
     //Dagger Injection
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     private void observeTestLiveData(@NotNull int number) {
         mBinding.testText.setText(String.format("number = %d", number));
+        Timber.i("number = %s", number);
 
     }
 }
