@@ -1,6 +1,5 @@
-package com.whynotpot.rescuehook;
+package com.whynotpot.rescuehook.screens.overScreen;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.whynotpot.rescuehook.App;
 import com.whynotpot.rescuehook.common.ViewModelFactory;
 import com.whynotpot.rescuehook.databinding.FragmentOverSreenBinding;
 

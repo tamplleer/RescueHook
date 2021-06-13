@@ -5,8 +5,8 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
-import com.whynotpot.rescuehook.MainViewModel;
-import com.whynotpot.rescuehook.OverScreenViewModel;
+import com.whynotpot.rescuehook.screens.main.MainViewModel;
+import com.whynotpot.rescuehook.screens.overScreen.OverScreenViewModel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

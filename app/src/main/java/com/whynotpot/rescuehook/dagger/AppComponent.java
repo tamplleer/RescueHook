@@ -1,7 +1,8 @@
 package com.whynotpot.rescuehook.dagger;
 
-import com.whynotpot.rescuehook.MainActivity;
-import com.whynotpot.rescuehook.OverScreenFragment;
+import com.whynotpot.rescuehook.screens.main.MainActivity;
+import com.whynotpot.rescuehook.screens.overScreen.OverScreenFragment;
+import com.whynotpot.rescuehook.service.OverScreenService;
 
 import javax.inject.Singleton;
 

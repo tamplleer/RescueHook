@@ -14,14 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RescueHook">
-        <activity android:name=".MainActivity">
+        <activity android:name=".screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.whynotpot.rescuehook.OverScreenService" />
+        <service android:name="com.whynotpot.rescuehook.service.OverScreenService" />
     </application>
 
 </manifest>

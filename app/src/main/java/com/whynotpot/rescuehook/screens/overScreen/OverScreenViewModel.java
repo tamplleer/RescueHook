@@ -1,4 +1,4 @@
-package com.whynotpot.rescuehook;
+package com.whynotpot.rescuehook.screens.overScreen;
 
 import androidx.lifecycle.ViewModel;
 
