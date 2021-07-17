@@ -12,12 +12,24 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class MainViewModel extends ViewModel {
     private final MutableLiveData<Integer> _testData = new MutableLiveData<Integer>();
 
     public LiveData<Integer> getTestLiveData() {
         return _testData;
+    }
+
+    private final MutableLiveData<Integer> _timeTimer = new MutableLiveData<Integer>();
+
+    public LiveData<Integer> getTimeTimerLiveData() {
+        return _timeTimer;
+    }
+
+    public void setTimeTimer(int time) {
+        Timber.i("%s", time);
+        _timeTimer.postValue(time);
     }
 
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
