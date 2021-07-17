@@ -51,12 +51,12 @@ public class MainViewModel extends ViewModel {
     }
 
     public void dataSourceUpdate() {
-        testDataUpdate()
+        mCompositeDisposable.add(testDataUpdate()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(num -> {
                     _testData.setValue(num);
-                });
+                }));
     }
 
     @Override

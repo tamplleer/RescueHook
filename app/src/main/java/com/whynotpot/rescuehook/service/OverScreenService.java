@@ -18,6 +18,7 @@ import com.whynotpot.rescuehook.themes.ThemeSimpleAlpha;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -126,18 +127,29 @@ public class OverScreenService extends Service {
                 }));
     }
 
-    private Flowable<Integer> dataSource(int time) {
+    private Observable<Integer> dataSource(int time) {
         //todo проверка если время 0 или null
         int sleepTime = time / 200;
         int maxTime = time / sleepTime + 5;
-        return Flowable.create((subscriber) ->
+        return Observable.create((subscriber) ->
         {
+            try {
+
+
             for (int i = 0; i < maxTime; i++) {
-                Thread.sleep(sleepTime);
-                subscriber.onNext(i);
+                    Thread.sleep(sleepTime);
+                    subscriber.onNext(i);
+
             }
             subscriber.onComplete();
-        }, BackpressureStrategy.LATEST);
+              }
+            catch (InterruptedException ex) {
+            if (!subscriber.isDisposed()) {
+                subscriber.onError(ex);
+            }
+        }
+
+        });
     }
 
 
@@ -148,7 +160,7 @@ public class OverScreenService extends Service {
                 Toast.LENGTH_SHORT).show();
         windowManager.removeViewImmediate(button.getFloatingFaceBubble());
         windowManager.removeViewImmediate(theme.getView());
-        mCompositeDisposable.clear();
+        mCompositeDisposable.dispose();
 
     }
 

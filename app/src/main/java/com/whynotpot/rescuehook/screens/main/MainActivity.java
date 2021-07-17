@@ -95,10 +95,14 @@ public class MainActivity extends AppCompatActivity {
 
         });
         mBinding.bStart.setOnClickListener(view -> {
-            //openService();
-            openTimePicker();
+            openService();
+            //openTimePicker();
         });
-        observeTimeTimer();
+
+
+       // observeTimeTimer();
+
+
         //  LinearLayout linearLayout = (LinearLayout) findViewById(R.id.test_fragment);
         //mBinding.testLinear.setLayoutManager(new LinearLayoutManager(mContext));
         //setContentView(linearLayout);
