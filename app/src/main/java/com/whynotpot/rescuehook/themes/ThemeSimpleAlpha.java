@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment;
 
 import com.whynotpot.rescuehook.databinding.FragmentOverSreenBinding;
 
-public class ThemeSimpleAlpha extends Fragment {
+public class ThemeSimpleAlpha extends Fragment implements Theme {
 
-    private WindowManager.LayoutParams myParams2;
+    private WindowManager.LayoutParams params;
     private FragmentOverSreenBinding mBinding;
 
     public ThemeSimpleAlpha() {
@@ -26,33 +26,49 @@ public class ThemeSimpleAlpha extends Fragment {
         } else {
             LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
         }
-        myParams2 = new WindowManager.LayoutParams(
+        params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 LAYOUT_FLAG,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
-        myParams2.gravity = Gravity.TOP | Gravity.CENTER;
-        myParams2.x = 0;
-        myParams2.y = 100;
-        myParams2.alpha=0;
+        params.gravity = Gravity.TOP | Gravity.CENTER;
+        params.x = 0;
+        params.y = 100;
+        params.alpha = 0;
+
+    }
+
+    public void setFlagTouch() {
+        params.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+    }
+
+    public void setFlagNotTouch() {
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
     }
 
     public void onStartCommand(PendingIntent pendingIntent) {
     }
-    public void onCreate(LayoutInflater inflater){
+
+    public void onCreate(LayoutInflater inflater) {
 
         mBinding = FragmentOverSreenBinding.inflate(inflater);
     }
-    public View getView(){
-       return mBinding.getRoot();
+
+    public View getView() {
+        return mBinding.getRoot();
     }
 
     public FragmentOverSreenBinding getBinding() {
         return mBinding;
     }
 
-    public WindowManager.LayoutParams getMyParams2() {
-        return myParams2;
+    public WindowManager.LayoutParams getParams() {
+        return params;
+    }
+
+    @Override
+    public View getBindingView() {
+        return null;
     }
 }

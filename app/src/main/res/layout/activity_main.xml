@@ -1,85 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/yellow"
-    android:backgroundTint="@color/yellow"
-    tools:context=".screens.main.MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/container"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+    <data>
 
-        app:layout_constraintBottom_toTopOf="@+id/test_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/test_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fcv_test"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            class ="com.whynotpot.rescuehook.screens.overScreen.OverScreenFragment">
-
-        </androidx.fragment.app.FragmentContainerView>-->
-
-    <!-- Continuous slider -->
-
-    <Button
-        android:id="@+id/bStart"
-        android:layout_width="191dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/start_timer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test_text"
-        app:layout_constraintVertical_bias="0.858" />
-
-    <EditText
-        android:id="@+id/edTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="74dp"
-        android:layout_marginBottom="140dp"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bStart"
-        app:layout_constraintVertical_bias="0.0" />
+        <variable
+            name="MainViewModel"
+            type="com.whynotpot.rescuehook.screens.main.MainViewModel" />
+    </data>
 
 
-    <com.google.android.material.slider.Slider
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/yellow"
+        android:backgroundTint="@color/yellow"
+        tools:context=".screens.main.MainActivity">
 
-        android:id="@+id/slider"
-        android:layout_width="200dp"
-        android:layout_height="10dp"
-        android:layout_marginTop="528dp"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="60.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        <!--    <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcv_test"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class ="com.whynotpot.rescuehook.screens.overScreen.OverScreenFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.fragment.app.FragmentContainerView>-->
+
+        <!-- Continuous slider -->
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/container"
+            android:layout_width="279dp"
+            android:layout_height="430dp"
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/background"
+            app:layout_constraintBottom_toTopOf="@+id/test_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/test_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{MainViewModel.timeTimerLiveDataString}"
+            android:textSize="@dimen/spacing_xxp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.771" />
+
+        <Button
+            android:id="@+id/bStart"
+            android:layout_width="191dp"
+            android:layout_height="75dp"
+            android:text="@string/start_timer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test_text"
+            app:layout_constraintVertical_bias="0.858"
+            tools:layout_editor_absoluteY="625dp" />
+
+        <EditText
+            android:id="@+id/edTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
+            android:layout_marginBottom="140dp"
+            android:ems="10"
+            android:inputType="time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bStart"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <com.google.android.material.slider.Slider
+
+            android:id="@+id/slider"
+            android:layout_width="200dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="16dp"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="15.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.521"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test_text"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

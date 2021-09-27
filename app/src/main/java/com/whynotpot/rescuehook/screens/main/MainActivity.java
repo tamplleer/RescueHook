@@ -57,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static void startCloseService(Context context) {
+        Intent dialogIntent = new Intent(context, MainActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(dialogIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
         mScreenNavigator = new ScreenNavigator(this, getSupportFragmentManager());
         mMainViewModel.getTestLiveData().observe(this, this::observeTestLiveData);
        // mMainViewModel.dataSourceUpdate();
-        mBinding.slider.setValue(5f);
+        mBinding.slider.setValue(3f);
+        mMainViewModel.setTimeTimer(3*60000);
        mBinding.slider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
            @Override
            public void onStartTrackingTouch( @NotNull Slider slider) {
@@ -85,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
        mBinding.slider.addOnChangeListener(new Slider.OnChangeListener() {
            @Override
            public void onValueChange(@NonNull @NotNull Slider slider, float value, boolean fromUser) {
-               mBinding.testText.setText(" "+value);
+              // mBinding.testText.setText(" "+value);
            }
        });
 
@@ -160,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                         .putExtra(Constants.THEME_INTENT, "alpha")
                         .putExtra(Constants.TIME, mMainViewModel.getTimeTimerLiveData().getValue());
         startService(intent);
+        finish();
     }
 
     public static Activity getInstance() {
@@ -176,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     private void observeTestLiveData(@NotNull int number) {
-        mBinding.testText.setText(String.format("number = %d", number));
+      //  mBinding.testText.setText(String.format("number = %d", number));
         Timber.i("number = %s", number);
 
     }

@@ -22,14 +22,20 @@ public class MainViewModel extends ViewModel {
     }
 
     private final MutableLiveData<Integer> _timeTimer = new MutableLiveData<Integer>();
+    private final MutableLiveData<String> _timeTimerString = new MutableLiveData<String>();
 
     public LiveData<Integer> getTimeTimerLiveData() {
         return _timeTimer;
     }
+    public LiveData<String> getTimeTimerLiveDataString() {
+        return _timeTimerString;
+    }
 
     public void setTimeTimer(int time) {
         Timber.i("%s", time);
+        Timber.i("string %s", _timeTimerString.getValue());
         _timeTimer.postValue(time);
+        _timeTimerString.postValue(time+"");
     }
 
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();

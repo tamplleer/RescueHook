@@ -20,7 +20,7 @@ public class SimpleFloatButton {
 
     public SimpleFloatButton(Context context) {
         floatingFaceBubble = new ImageView(context);
-        floatingFaceBubble.setImageResource(R.drawable.ic_launcher_foreground);
+        floatingFaceBubble.setImageResource(R.mipmap.ic_launcher);
 
         int LAYOUT_FLAG;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
