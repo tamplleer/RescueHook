@@ -10,15 +10,22 @@ import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.whynotpot.rescuehook.R;
+import com.whynotpot.rescuehook.themes.CallBack;
+import com.whynotpot.rescuehook.themes.Theme;
 
 import timber.log.Timber;
 
-public class SimpleFloatButton {
+public class FastStartButton {
     private ImageView floatingFaceBubble;
     private WindowManager.LayoutParams myParams;
+    private WindowManager windowManager;
+    private Theme theme;
+    private final int INITIAL_X = 30;
+    private final int INITIAL_Y = 100;
 
-    public SimpleFloatButton(Context context, int image) {
+    public FastStartButton(Context context, int image, WindowManager windowManager, Theme theme) {
+        this.windowManager = windowManager;
+        this.theme = theme;
         floatingFaceBubble = new ImageView(context);
         floatingFaceBubble.setImageResource(image);
 
@@ -35,9 +42,9 @@ public class SimpleFloatButton {
                 LAYOUT_FLAG,
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
-        myParams.gravity = Gravity.TOP | Gravity.RIGHT;
-        myParams.x = 0;
-        myParams.y = 100;
+        myParams.gravity = Gravity.RIGHT;
+        myParams.x = INITIAL_X;
+        myParams.y = INITIAL_Y;
 
         try {
             //for moving the picture on touch and slide
@@ -52,13 +59,14 @@ public class SimpleFloatButton {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     //remove face bubble on long press
-          /*          if (System.currentTimeMillis() - touchStartTime > ViewConfiguration.getLongPressTimeout() && initialTouchX == event.getX()) {
+      /*              if (System.currentTimeMillis() - touchStartTime > ViewConfiguration.getLongPressTimeout() && initialTouchX == event.getX()) {
                         windowManager.removeView(floatingFaceBubble);
-                        stopSelf();
+
                         return false;
                     }*/
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
+                            Timber.i("down");
                             touchStartTime = System.currentTimeMillis();
                             initialX = myParams.x;
                             initialY = myParams.y;
@@ -66,11 +74,32 @@ public class SimpleFloatButton {
                             initialTouchY = event.getRawY();
                             break;
                         case MotionEvent.ACTION_UP:
+                            Timber.i("up");
+                            myParams.x = initialX;
+                            windowManager.updateViewLayout(v, myParams);
+                            break;
+                        case MotionEvent.ACTION_OUTSIDE:
+                            Timber.i("outSide");
                             break;
                         case MotionEvent.ACTION_MOVE:
-                            myParams.x = initialX + (int) (event.getRawX() - initialTouchX);
+                            Timber.i(initialX + "   " + event.getRawX() + "   " + initialTouchX + "   " + (int) (event.getRawX() - initialTouchX));
+
+
+                            //  if (Math.abs(initialY - (int) (event.getRawY() - initialTouchY)) >= 20) {
                             myParams.y = initialY + (int) (event.getRawY() - initialTouchY);
-                            //windowManager.updateViewLayout(v, myParams);
+                            //   } else {
+                            if (Math.abs((int) (event.getRawX() - initialTouchX)) > 300) {
+                                myParams.x = 300;
+                                windowManager.removeView(floatingFaceBubble);
+                                windowManager.addView(theme.getView(), theme.getParams());
+
+                            } else {
+                                myParams.x = Math.abs((int) (event.getRawX() - initialTouchX));
+                            }
+
+                            //   }
+
+                            windowManager.updateViewLayout(v, myParams);
                             break;
                     }
                     return false;

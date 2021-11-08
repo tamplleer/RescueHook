@@ -6,26 +6,17 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.whynotpot.rescuehook.R;
 import com.whynotpot.rescuehook.common.Constants;
 import com.whynotpot.rescuehook.floatButton.SimpleFloatButton;
 import com.whynotpot.rescuehook.screens.main.MainActivity;
 import com.whynotpot.rescuehook.themes.Theme;
 import com.whynotpot.rescuehook.themes.ThemeSimpleAlpha;
-
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 public class OverScreenService extends Service {
     private WindowManager windowManager;
@@ -35,7 +26,7 @@ public class OverScreenService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        PendingIntent pendingIntent = intent.getParcelableExtra(Constants.PENDING_INTENT);
+       // PendingIntent pendingIntent = intent.getParcelableExtra(Constants.PENDING_INTENT);
         int time = intent.getIntExtra(Constants.TIME, 5000);
         String theme1 = intent.getStringExtra(Constants.THEME_INTENT);
         //theme.onStartCommand(pendingIntent); todo нужно вообще?
@@ -43,12 +34,8 @@ public class OverScreenService extends Service {
         timerExecutable = new TimerExecutable(theme, time, windowManager);
         Intent intents = new Intent().putExtra("cat", "Cat");
         button.getFloatingFaceBubble().setOnClickListener(view -> {
-            try {
-                pendingIntent.send(this, Constants.SERVICE_OVER_SCREEN_REQUEST_CODE, intents);
-                stopSelfResult(startId);
-            } catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
-            }
+            //     pendingIntent.send(this, Constants.SERVICE_OVER_SCREEN_REQUEST_CODE, intents);
+            stopSelfResult(startId);
         });
 
         return super.onStartCommand(intent, flags, startId);
@@ -59,7 +46,7 @@ public class OverScreenService extends Service {
     @SuppressLint("ClickableViewAccessibility")
     public void onCreate() {
         super.onCreate();
-        button = new SimpleFloatButton(this);
+        button = new SimpleFloatButton(this, R.mipmap.ic_launcher);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         theme = new ThemeSimpleAlpha();
         LayoutInflater inflater = LayoutInflater.from(this);
