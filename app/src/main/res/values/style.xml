@@ -18,6 +18,5 @@
 
     <style name="FastStartFragment" parent="Theme.AppCompat">
         <item name="android:background">@color/grey_1</item>
-        <item name="android:alpha">0.5</item>
     </style>
 </resources>

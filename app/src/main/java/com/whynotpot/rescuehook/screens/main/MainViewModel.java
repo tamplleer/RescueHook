@@ -1,5 +1,7 @@
 package com.whynotpot.rescuehook.screens.main;
 
+import static com.whynotpot.rescuehook.common.Constants.ONE_MINUTE;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,19 +15,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel {
-    private final MutableLiveData<Integer> _testData = new MutableLiveData<Integer>();
-    private final int ONE_MINUTE = 60000;
 
-    public LiveData<Integer> getTestLiveData() {
-        return _testData;
-    }
-
-    private final MutableLiveData<Integer> _timeTimer = new MutableLiveData<Integer>();
     private final ObservableField<String> timeTimerString = new ObservableField<>();
 
     public ObservableField<String> getTimeTimerString() {
         return timeTimerString;
     }
+
+    public void setTimeView(int time) {
+        timeTimerString.set(time + " мин");
+    }
+
+    private final MutableLiveData<Integer> _timeTimer = new MutableLiveData<Integer>();
 
     public LiveData<Integer> getTimeTimerLiveData() {
         return _timeTimer;
@@ -35,41 +36,17 @@ public class MainViewModel extends ViewModel {
         _timeTimer.postValue(time * ONE_MINUTE);
     }
 
-    public void setTimeView(int time) {
-        timeTimerString.set(time + " мин");
+    private final ObservableField<String> _coins = new ObservableField<>();
+
+    public ObservableField<String> getCoins() {
+        return _coins;
     }
 
-    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    public void setCoins(int coins) {
+        _coins.set(String.format("%d монет", coins));
+    }
 
     @Inject
     MainViewModel() {
-    }
-
-    public Observable<Integer> testDataUpdate() {
-        return Observable.create((subscriber) ->
-                {
-                    for (int i = 0; i < 100; i++) {
-                        Thread.sleep(1000);
-                        subscriber.onNext(i);
-                    }
-                    subscriber.onComplete();
-                }
-        );
-    }
-
-    public void dataSourceUpdate() {
-        mCompositeDisposable.add(testDataUpdate()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(num -> {
-                    _testData.setValue(num);
-                }));
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        mCompositeDisposable.clear();
-
     }
 }

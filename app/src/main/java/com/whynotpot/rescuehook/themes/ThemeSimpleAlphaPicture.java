@@ -15,13 +15,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.whynotpot.rescuehook.databinding.FragmentOverSreenBinding;
+import com.whynotpot.rescuehook.databinding.FragmentOverSreenPictureBinding;
 
-public class ThemeSimpleAlpha extends Fragment implements Theme {
+import timber.log.Timber;
+
+public class ThemeSimpleAlphaPicture extends Fragment implements Theme {
 
     private WindowManager.LayoutParams params;
-    private FragmentOverSreenBinding mBinding;
+    private FragmentOverSreenPictureBinding mBinding;
 
-    public ThemeSimpleAlpha() {
+    public ThemeSimpleAlphaPicture() {
 
         //todo вынести это выше в абстрактный класс и почистить
         int LAYOUT_FLAG;
@@ -41,6 +44,7 @@ public class ThemeSimpleAlpha extends Fragment implements Theme {
         params.y = 100;
         params.alpha = 0;
 
+
     }
 
     public void setFlagTouch() {
@@ -54,13 +58,7 @@ public class ThemeSimpleAlpha extends Fragment implements Theme {
     public void onStartCommand(PendingIntent pendingIntent) {
     }
 
-    public void onCreate(LayoutInflater inflater) {
-
-        mBinding = FragmentOverSreenBinding.inflate(inflater);
-    }
-
-
-    public FragmentOverSreenBinding getBinding() {
+    public FragmentOverSreenPictureBinding getBinding() {
         return mBinding;
     }
 
@@ -72,10 +70,15 @@ public class ThemeSimpleAlpha extends Fragment implements Theme {
     public View getBindingView() {
         return null;
     }
+
+    @Override
+    public void onCreate(LayoutInflater inflater) {
+        mBinding = FragmentOverSreenPictureBinding.inflate(inflater);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentOverSreenBinding.inflate(inflater, container, false);
+        mBinding = FragmentOverSreenPictureBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
 
@@ -83,5 +86,6 @@ public class ThemeSimpleAlpha extends Fragment implements Theme {
     public View getView() {
         return mBinding.getRoot();
     }
+
 
 }

@@ -17,10 +17,12 @@
         <TextView
             android:id="@+id/tv_explanation_text_factory_reset_dialog"
             android:layout_width="match_parent"
+            android:selectAllOnFocus="false"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
             android:layout_height="match_parent"
             android:textColor="@color/blue_1"
             android:layout_marginStart="@dimen/spacing_p"
-            android:layout_marginTop="@dimen/spacing_xxxxl"
             android:layout_marginEnd="@dimen/spacing_p"
             android:text="@string/example_long"
             android:textIsSelectable="true" />

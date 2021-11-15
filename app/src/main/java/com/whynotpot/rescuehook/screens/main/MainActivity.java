@@ -1,8 +1,11 @@
 package com.whynotpot.rescuehook.screens.main;
 
+import static com.whynotpot.rescuehook.common.Constants.ONE_MINUTE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -10,9 +13,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -23,6 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.slider.Slider;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -32,6 +43,7 @@ import com.whynotpot.rescuehook.FastStartService;
 import com.whynotpot.rescuehook.R;
 import com.whynotpot.rescuehook.common.Constants;
 import com.whynotpot.rescuehook.common.ScreenNavigator;
+import com.whynotpot.rescuehook.common.SharedPreferenceSettings;
 import com.whynotpot.rescuehook.common.ViewModelFactory;
 import com.whynotpot.rescuehook.databinding.ActivityMainBinding;
 import com.whynotpot.rescuehook.screens.overScreen.OverScreenFragment;
@@ -55,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel mMainViewModel;
     private ScreenNavigator mScreenNavigator;
     public static final String NEW_RESTART_SERVICE = "com.whynotpot.rescuehook.action.NEW_RESTART_SERVICE";
+    private SharedPreferenceSettings preferenceSettings;
+    private FragmentMainAdapter adapter;
+    private String themeId;
     //Dagger Injection
     @Inject
     Context mContext;
@@ -93,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
         //   this.sendBroadcast(broadcastIntent);
         //  broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         //   broadcastIntent.setClass(this, Restarter.class);
-        //   this.sendOrderedBroadcast(broadcastIntent, null);
+        //   this.sendOrderedBroadcast(broadcastIntent, null)
+        // ;
+        adapter.clear();
         super.onDestroy();
     }
 
@@ -108,21 +125,38 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void registerBroadcastReceiver() {
-      /*  BootReceiver broadCastReceiver = new BootReceiver();
-        this.registerReceiver(broadCastReceiver, new IntentFilter(
-                NEW_RESTART_SERVICE));
-        Toast.makeText(this, "Enabled broadcast receiver", Toast.LENGTH_SHORT)
-                .show();*/
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //View binding
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        preferenceSettings = new SharedPreferenceSettings(this);
+        int time = preferenceSettings.getTime();
 
+        if (!Settings.canDrawOverlays(this)) {
+            AlertDialog.Builder ad;
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            ad = new AlertDialog.Builder(this);
+            ad.setTitle("Сообщение");// заголовок
+            ad.setMessage("Чтобы использовать приложение нужноактивировать отображение поверх других окон"); // сообщение
+
+            ad.setNegativeButton("Активировать", (dialog, arg1) -> startActivityForResult(intent, 0));
+            ad.setPositiveButton("Закрыть", (dialog, arg1) -> {
+                dialog.cancel();
+                finish();
+            });
+
+            ad.setCancelable(true);
+
+            ad.setOnCancelListener(dialog -> {
+                dialog.cancel();
+                finish();
+            });
+            ad.show();
+
+
+        }
 
 /*
         Intent broadcastIntent = new Intent();
@@ -135,11 +169,25 @@ public class MainActivity extends AppCompatActivity {
         App.getComponent().inject(this);
         mMainViewModel = new ViewModelProvider(this, mViewModelFactory).get(MainViewModel.class);
         mScreenNavigator = new ScreenNavigator(this, getSupportFragmentManager());
-        mMainViewModel.getTestLiveData().observe(this, this::observeTestLiveData);
+        mMainViewModel.setCoins(preferenceSettings.getCoins());
+
+        adapter = new FragmentMainAdapter(this, LayoutInflater.from(this), getSupportFragmentManager());
+        mBinding.mainPager.setAdapter(adapter);
+        mBinding.mainPager.setOffscreenPageLimit(3);
+
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+        compositePageTransformer.addTransformer((page, position) -> {
+            float r = 1 - Math.abs(position);
+            page.setScaleY(0.85f + r * 0.15f);
+            themeId = adapter.getThemeId((int) position);
+        });
+        mBinding.mainPager.setPageTransformer(compositePageTransformer);
+
         // mMainViewModel.dataSourceUpdate();
-        mBinding.slider.setValue(3f);
-        mMainViewModel.setTimeTimer(3);
-        mMainViewModel.setTimeView((int) (3));
+        mBinding.slider.setValue(time);
+        mMainViewModel.setTimeTimer(time);
+        mMainViewModel.setTimeView(time);
         mBinding.setMainViewModel(mMainViewModel);
         // ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //binding.tvTime.setTime;
@@ -153,12 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 mMainViewModel.setTimeTimer((int) (slider.getValue()));
             }
         });
-        mBinding.slider.addOnChangeListener(new Slider.OnChangeListener() {
-            @Override
-            public void onValueChange(@NonNull @NotNull Slider slider, float value, boolean fromUser) {
-                mMainViewModel.setTimeView((int) (slider.getValue()));
-            }
-        });
+        mBinding.slider.addOnChangeListener((slider, value, fromUser) -> mMainViewModel.setTimeView((int) (slider.getValue())));
 
         mBinding.tvTime.setOnClickListener(view -> {
             openService();
@@ -166,27 +209,24 @@ public class MainActivity extends AppCompatActivity {
 
         });
         mBinding.bStart.setOnClickListener(view -> {
+            preferenceSettings.saveTime(mMainViewModel.getTimeTimerLiveData().getValue() / ONE_MINUTE);
             openService();
             //openTimePicker();
         });
-        mBinding.swFastStart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if (checked) {
-                    if (!isMyServiceRunning(FastStartService.class)) {
-                        Intent broadcastIntent = new Intent(NEW_RESTART_SERVICE);
-                        broadcastIntent.setPackage("com.whynotpot.rescuehook");
-                        broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                        sendBroadcast(broadcastIntent);
-                    }
-                } else {
-                    Intent broadcastIntent = new Intent("STOP");
+        mBinding.swFastStart.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if (checked) {
+                if (!isMyServiceRunning(FastStartService.class)) {
+                    Intent broadcastIntent = new Intent(NEW_RESTART_SERVICE);
                     broadcastIntent.setPackage("com.whynotpot.rescuehook");
+                    broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
                     sendBroadcast(broadcastIntent);
                 }
+            } else {
+                Intent broadcastIntent = new Intent("STOP");
+                broadcastIntent.setPackage("com.whynotpot.rescuehook");
+                sendBroadcast(broadcastIntent);
             }
         });
-        registerBroadcastReceiver();
 
         //   Intent broadcastIntent = new Intent(NEW_RESTART_SERVICE);
         //broadcastIntent.setAction(NEW_RESTART_SERVICE);
@@ -253,10 +293,7 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(linearLayout);
 
         //work
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        OverScreenFragment overScreenFragment = OverScreenFragment.getInstance();
-        ft.add(R.id.container, overScreenFragment);
-        ft.commit();
+
 
 /*        OverScreenFragment overScreenFragment = OverScreenFragment.getInstance();
         mBinding.fcvTest.setTag(R.id.test_fragment, overScreenFragment);
@@ -269,30 +306,6 @@ public class MainActivity extends AppCompatActivity {
         if (!isMyServiceRunning(mYourService.getClass())) {
             startService(mServiceIntent);
         }*/
-    }
-
-    private void observeTimeTimer() {
-        mBinding.edTimer.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (mBinding.edTimer.getText().toString().isEmpty()) {
-                    mBinding.bStart.setEnabled(false);
-                } else {
-                    mBinding.bStart.setEnabled(true);
-                    DateFormat formatter = new SimpleDateFormat("hh:mm:ss a");
-                    try {
-                        Timber.i("%s", "yees");
-                        Date date = formatter.parse(mBinding.edTimer.getText().toString());
-                        mMainViewModel.setTimeTimer((int) date.getTime());//todo delete?
-                    } catch (ParseException e) {
-                        Timber.i("%s", e.getMessage());
-                        e.printStackTrace();
-                    }
-
-                    Timber.i("%s", mMainViewModel.getTimeTimerLiveData().getValue());
-                }
-            }
-            return false;
-        });
     }
 
     private void openTimePicker() {
@@ -311,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
         intent =
                 new Intent(MainActivity.this, OverScreenService.class)
                         .putExtra(Constants.PENDING_INTENT, pendingIntent)
-                        .putExtra(Constants.THEME_INTENT, "alpha")
+                        .putExtra(Constants.THEME_INTENT, themeId)
                         .putExtra(Constants.TIME, mMainViewModel.getTimeTimerLiveData().getValue());
         startService(intent);
         finish();
@@ -326,13 +339,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(this, "Hello!", Toast.LENGTH_LONG).show();
         mBinding.bStart.setText(String.format("%s", data.getStringExtra("cat")));
-
-    }
-
-    @SuppressLint("DefaultLocale")
-    private void observeTestLiveData(@NotNull int number) {
-        //  mBinding.testText.setText(String.format("number = %d", number));
-        Timber.i("number = %s", number);
 
     }
 

@@ -14,6 +14,7 @@ public class TimerExecutable {
     private Theme theme;
     final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private WindowManager windowManager;
+    private int remainingTime = 0;
 
     public TimerExecutable(Theme theme, int time, WindowManager windowManager) {
         this.theme = theme;
@@ -29,11 +30,11 @@ public class TimerExecutable {
                 .subscribe(num -> {
                     if (theme.getParams().alpha < 1f) {
                         theme.getParams().alpha = Math.min(theme.getParams().alpha + 0.005f, 1f);
-                        if (theme.getParams().flags == 264) {
+                 /*       if (theme.getParams().flags == 264) {
                             theme.setFlagNotTouch();
                         } else {
                             theme.setFlagTouch();//todo тест сложного скрола
-                        }
+                        }*/
                         Timber.i(theme.getParams().flags + "");
                         windowManager.updateViewLayout(theme.getView(), theme.getParams());
                     } else {
@@ -52,13 +53,12 @@ public class TimerExecutable {
         return Observable.create((subscriber) ->
         {
             try {
-
-
                 for (int i = 0; i < maxTime; i++) {
                     Thread.sleep(sleepTime);
+                    setRemainingTime(i);
                     subscriber.onNext(i);
-
                 }
+                setRemainingTime(0);
                 subscriber.onComplete();
             } catch (InterruptedException ex) {
                 if (!subscriber.isDisposed()) {
@@ -68,7 +68,16 @@ public class TimerExecutable {
 
         });
     }
-    public void destroy(){
+
+    public void destroy() {
         mCompositeDisposable.dispose();
+    }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int remainingTime) {
+        this.remainingTime = remainingTime;
     }
 }

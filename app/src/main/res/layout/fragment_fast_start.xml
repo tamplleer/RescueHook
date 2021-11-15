@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/test_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/llc_factory_reset_dialog"
-        style="@style/FastStartFragment"
-        android:layout_marginTop="50dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
-        android:layout_width="279dp"
-        android:layout_height="430dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_explanation_text_factory_reset_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_p"
-            android:layout_marginTop="@dimen/spacing_xxxxl"
-            android:layout_marginEnd="@dimen/spacing_p"
-            android:minHeight="48dp"
-            android:text="@string/app_name"
-            android:textIsSelectable="true" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="290dp"
+        android:layout_height="430dp">
 
         <Button
             android:id="@+id/bFastStartService"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_width="191dp"
+            android:layout_height="75dp"
+            android:elevation="30dp"
+            app:flow_horizontalAlign="center"
+            android:shadowColor="@color/red_1"
+            android:text="@string/start_timer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.477"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.783"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+        <TextView
+            android:id="@+id/tv_explanation_text_factory_reset_dialog"
+            android:layout_width="140dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="99dp"
+            android:layout_marginTop="268dp"
+            android:layout_marginEnd="172dp"
+            android:layout_marginBottom="24dp"
+            android:minHeight="48dp"
+            android:text="@string/app_name"
+            android:textIsSelectable="true"
+            app:layout_constraintBottom_toTopOf="@+id/bFastStartService"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

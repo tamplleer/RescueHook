@@ -7,5 +7,6 @@ public class Constants {
     public static final String THEME_INTENT = "themeIntent";
     public static final String TIME = "timeBeforeIntent";
     public static final String TIME_AFTER_INTENT = "timeAfterIntent";
+    public static final int ONE_MINUTE = 60000;
 }
 

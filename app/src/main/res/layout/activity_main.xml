@@ -18,34 +18,28 @@
         android:layout_height="match_parent"
         tools:context=".screens.main.MainActivity">
 
-        <!--    <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fcv_test"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                class ="com.whynotpot.rescuehook.screens.overScreen.OverScreenFragment">
-
-            </androidx.fragment.app.FragmentContainerView>-->
-
-        <!-- Continuous slider -->
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/container"
-            android:layout_width="279dp"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/main_pager"
+            android:layout_width="match_parent"
             android:layout_height="430dp"
-            android:layout_marginBottom="188dp"
-            app:cardCornerRadius="@dimen/spacing_xxp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded">
-
-        </androidx.cardview.widget.CardView>
+            android:layout_gravity="bottom"
+            android:layout_marginTop="120dp"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:overScrollMode="never"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="@dimen/spacing_xxxt"
+            android:paddingLeft="@dimen/spacing_xxxt"
+            android:paddingRight="@dimen/spacing_xxxt"
+            android:paddingStart="@dimen/spacing_xxxt"
+             />
 
         <Button
             android:id="@+id/bStart"
             android:layout_width="191dp"
             android:layout_height="75dp"
+            android:elevation="30dp"
+            android:shadowColor="@color/red_1"
             android:text="@string/start_timer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,29 +63,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.873" />
 
-        <EditText
-            android:id="@+id/edTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="74dp"
-            android:layout_marginBottom="140dp"
-            android:ems="10"
-            android:inputType="time"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bStart"
-            app:layout_constraintVertical_bias="0.0" />
-
-
         <com.google.android.material.slider.Slider
 
             android:id="@+id/slider"
             android:layout_width="200dp"
             android:layout_height="10dp"
             android:stepSize="1.0"
-            android:valueFrom="0.0"
+            android:valueFrom="1.0"
             android:valueTo="15.0"
             app:labelBehavior="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -108,9 +86,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="28dp"
-            android:text="Service"
+            android:text="@string/service"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCoins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@{MainViewModel.coins}"
+            android:textSize="@dimen/spacing_xl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.742"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

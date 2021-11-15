@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.whynotpot.rescuehook.App;
 import com.whynotpot.rescuehook.common.ViewModelFactory;
 import com.whynotpot.rescuehook.databinding.FragmentOverSreenBinding;
+import com.whynotpot.rescuehook.databinding.FragmentOverSreenPictureBinding;
 
 import javax.inject.Inject;
 
@@ -33,7 +34,6 @@ public class OverScreenFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        // mScreenNavigator = new ScreenNavigator(mActivity, mActivity.getSupportFragmentManager());
         ((App) mActivity.getApplication()).getComponent().inject(this);
         overScreenViewModel = new ViewModelProvider(mActivity, mViewModelFactory).get(OverScreenViewModel.class);
     }
@@ -42,8 +42,12 @@ public class OverScreenFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentOverSreenBinding.inflate(inflater, container, false);
-        // initToolbar();
-        //   mBinding.btnFactoryReset.setOnClickListener(v -> mScreenNavigator.replaceFragment(new FactoryResetPerformingFragment(), R.id.fcv_factory_reset));
+        return mBinding.getRoot();
+    }
+
+    @Nullable
+    @Override
+    public View getView() {
         return mBinding.getRoot();
     }
 

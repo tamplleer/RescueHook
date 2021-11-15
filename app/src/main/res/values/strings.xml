@@ -1,24 +1,9 @@
 <resources>
     <string name="app_name">rescue hook</string>
-    <string name="example_long"><b>Terms and Conditions</b> \n\nconsectetur
-        adipiscing elit. Nam venenatis convallis ante, at suscipit orci. Donec id nibh lacus.
-        Nullam sodales vitae neque in auctor. In at mauris scelerisque, eleifend magna ac, ornare
-        justo. Maecenas tincidunt, justo et mollis pharetra, urna quam fermentum elit, quis interdum
-        leo augue vel sem. Suspendisse efficitur metus sed justo finibus, eget ornare odio consequat.
-        Praesent sed dapibus felis. Morbi tincidunt leo vitae justo vehicula tempus.\n\n\nNunc lacinia
-        mauris velit, vel dignissim tortor tristique in. Nunc dapibus massa ac lectus aliquet,
-        ut suscipit urna tempus. Nullam in purus dui. Nam in diam ullamcorper, tristique metus eget,
-        consectetur mi. Praesent eget magna iaculis, fermentum odio vitae, dapibus urna. Nullam
-        scelerisque lacus purus, non imperdiet ipsum euismod et. Donec eu vulputate elit, eget
-        cursus magna. Phasellus ornare, enim a ultricies tincidunt, neque nunc malesuada leo,
-        non pellentesque arcu tortor sit amet arcu. Donec id nibh lacus. Nullam sodales vitae neque
-        in auctor. Donec id nibh lacus. Nullam sodales vitae neque in auctor. In at mauris scelerisque,
-        eleifend magna ac, ornare justo. Maecenas tincidunt, justo et mollis pharetra, urna quam
-        fermentum elit, quis interdum leo augue vel sem. Nunc lacinia mauris velit, vel dignissim
-        tortor tristique in. Nunc dapibus massa ac lectus aliquet, ut suscipit urna tempus.
-        Nullam in purus dui. Nam in diam ullamcorper, tristique metus eget, consectetur mi.
-        Nunc lacinia mauris velit, vel dignissim tortor tristique in. Nunc dapibus massa ac lectus
-        aliquet, ut suscipit urna tempus. Nullam in purus dui. Nam in diam ullamcorper, tristique
-        metus eget, consectetur mi.  </string>
+    <string name="example_long">\n<b>Правила использования</b> \n\nПользователь решает отдохнуть, провести бесцельно время в социальных сетях n-ое количество времени. Но после истечения времени, оторваться от мобильного устройства не получается, и у человека начинается некомфортное ощущение, что необходимо начать выполнять поставленные задачи, но нет сил переключится на них резко. Выбирите время, которое хотите провести в социальных сетях, нажмите "залипнуть". По окончанию прокрастинации нажмите на кнопку в верхнем углу.
+  </string>
     <string name="start_timer">Залипнуть!</string>
+    <string name="service">Service</string>
+    <string name="you_are_great">Какой же ты молодец!</string>
+    <string name="back">Вернуться домой</string>
 </resources>

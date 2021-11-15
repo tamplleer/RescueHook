@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.whynotpot.rescuehook.screens.main.MainViewModel;
 import com.whynotpot.rescuehook.screens.overScreen.OverScreenViewModel;
+import com.whynotpot.rescuehook.screens.result.ResultActivity;
+import com.whynotpot.rescuehook.screens.result.ResultViewModel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -54,5 +56,12 @@ public class AppModule {
     @ViewModelKey(OverScreenViewModel.class)
     ViewModel getOverScreenViewModel(OverScreenViewModel overScreenViewModel) {
         return overScreenViewModel;
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(ResultViewModel.class)
+    ViewModel getResultViewModel(ResultViewModel resultViewModel) {
+        return resultViewModel;
     }
 }

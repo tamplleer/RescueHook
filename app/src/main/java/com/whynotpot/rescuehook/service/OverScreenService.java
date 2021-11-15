@@ -3,7 +3,6 @@ package com.whynotpot.rescuehook.service;
 import android.annotation.SuppressLint;
 
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -13,27 +12,58 @@ import android.widget.Toast;
 
 import com.whynotpot.rescuehook.R;
 import com.whynotpot.rescuehook.common.Constants;
+import com.whynotpot.rescuehook.common.ScreenNavigator;
 import com.whynotpot.rescuehook.floatButton.SimpleFloatButton;
-import com.whynotpot.rescuehook.screens.main.MainActivity;
+import com.whynotpot.rescuehook.screens.result.ResultParams;
 import com.whynotpot.rescuehook.themes.Theme;
 import com.whynotpot.rescuehook.themes.ThemeSimpleAlpha;
+import com.whynotpot.rescuehook.themes.ThemeSimpleAlphaPicture;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class OverScreenService extends Service {
     private WindowManager windowManager;
     private Theme theme;
     private SimpleFloatButton button;
     private TimerExecutable timerExecutable;
+    private ScreenNavigator mScreenNavigator;
+    private ResultParams resultParams;
+
+
+    private Map<String, Theme> themeMap = new HashMap<>();
+
+    private void addMapItem() {
+        themeMap.put("alpha_text", new ThemeSimpleAlpha());
+        themeMap.put("alpha_pic", new ThemeSimpleAlphaPicture());
+    }
+
+    private Theme getTheme(String key) {
+        return themeMap.getOrDefault(key, new ThemeSimpleAlpha());
+
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-       // PendingIntent pendingIntent = intent.getParcelableExtra(Constants.PENDING_INTENT);
+
+        addMapItem();
+        // PendingIntent pendingIntent = intent.getParcelableExtra(Constants.PENDING_INTENT);
         int time = intent.getIntExtra(Constants.TIME, 5000);
-        String theme1 = intent.getStringExtra(Constants.THEME_INTENT);
+        theme = getTheme(intent.getStringExtra(Constants.THEME_INTENT));
         //theme.onStartCommand(pendingIntent); todo нужно вообще?
         // startTimer(time);
         timerExecutable = new TimerExecutable(theme, time, windowManager);
         Intent intents = new Intent().putExtra("cat", "Cat");
+        LayoutInflater inflater = LayoutInflater.from(this);
+        theme.onCreate(inflater);
+
+
+        windowManager.addView(theme.getView(), theme.getParams());
+        windowManager.addView(button.getFloatingFaceBubble(), button.getMyParams());
+
+
         button.getFloatingFaceBubble().setOnClickListener(view -> {
+            resultParams = new ResultParams(timerExecutable.getRemainingTime());
             //     pendingIntent.send(this, Constants.SERVICE_OVER_SCREEN_REQUEST_CODE, intents);
             stopSelfResult(startId);
         });
@@ -46,17 +76,9 @@ public class OverScreenService extends Service {
     @SuppressLint("ClickableViewAccessibility")
     public void onCreate() {
         super.onCreate();
+        mScreenNavigator = new ScreenNavigator(this);
         button = new SimpleFloatButton(this, R.mipmap.ic_launcher);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        theme = new ThemeSimpleAlpha();
-        LayoutInflater inflater = LayoutInflater.from(this);
-        theme.onCreate(inflater);
-
-
-        windowManager.addView(theme.getView(), theme.getParams());
-        windowManager.addView(button.getFloatingFaceBubble(), button.getMyParams());
-
-
     }
 
 
@@ -69,7 +91,7 @@ public class OverScreenService extends Service {
         windowManager.removeViewImmediate(theme.getView());
         timerExecutable.destroy();
 
-        MainActivity.startCloseService(this);
+        mScreenNavigator.toResultFromService(resultParams);
 
     }
 
