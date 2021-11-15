@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
     //View binding
     private ActivityMainBinding mBinding;
 
-    private JobScheduler scheduler;
-
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -95,21 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Timber.i("close");
-      /*  Intent broadcastIntent = new Intent(NEW_RESTART_SERVICE);
-        broadcastIntent.setPackage("com.whynotpot.rescuehook");
-        this.sendBroadcast(broadcastIntent, null);*/
-        Timber.i("close2");
-
-        //  scheduler.cancel(123);
-        //    Intent broadcastIntent = new Intent();
-        //    broadcastIntent.setAction("restartservice");
-        //    broadcastIntent.setPackage("com.whynotpot.servicetest");
-        //   this.sendBroadcast(broadcastIntent);
-        //  broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        //   broadcastIntent.setClass(this, Restarter.class);
-        //   this.sendOrderedBroadcast(broadcastIntent, null)
-        // ;
         adapter.clear();
         super.onDestroy();
     }
@@ -157,13 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-
-/*
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("restartservice");
-        broadcastIntent.setClass(this, Restarter.class);
-        this.sendBroadcast(broadcastIntent);
-*/
 
         //Dagger injection
         App.getComponent().inject(this);
@@ -228,84 +204,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //   Intent broadcastIntent = new Intent(NEW_RESTART_SERVICE);
-        //broadcastIntent.setAction(NEW_RESTART_SERVICE);
-        //   broadcastIntent.setPackage("com.whynotpot.rescuehook");
-        //   broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        //broadcastIntent.setClass(this, BootReceiver.class);
-        //     this.sendOrderedBroadcast(broadcastIntent, null);
         if (Build.BRAND.equals("xiaomi")) {
           /*  Intent intent = new Intent();
             intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
             startActivity(intent);*/
 
         }
-        //   startService(new Intent(this, YourService.class));
-
-/*                ComponentName componentName = new ComponentName(this, FastStartService.class);
-                JobInfo jobInfo = new JobInfo.Builder(123, componentName)
-                        .setPersisted(true)
-                       .setPeriodic(1000*60*15)
-                        .build();
-                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                int resultCode = scheduler.schedule(jobInfo);
-                if (resultCode == JobScheduler.RESULT_SUCCESS){
-                    Timber.i("Success");
-                }
-                else {
-                    Timber.i("failure");
-                }*/
-
-/*            final Intent[] POWERMANAGER_INTENTS = {
-                    new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
-                    new Intent().setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")),
-                    new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")),
-                    new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")),
-                    new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity")),
-                    new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")),
-                    new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.startupapp.StartupAppListActivity")),
-                    new Intent().setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity")),
-                    new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
-                    new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager")),
-                    new Intent().setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
-                    new Intent().setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.battery.ui.BatteryActivity")),
-                    new Intent().setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity")),
-                    new Intent().setComponent(new ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")),
-                    new Intent().setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity")),
-                    new Intent().setComponent(new ComponentName("com.transsion.phonemanager", "com.itel.autobootmanager.activity.AutoBootMgrActivity"))
-            };
-
-            for (Intent intent : POWERMANAGER_INTENTS)
-                if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-                    // show dialog to ask user action
-                    break;
-                }
-        });*/
-
-        scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-
-
-        // observeTimeTimer();
-
-
-        //  LinearLayout linearLayout = (LinearLayout) findViewById(R.id.test_fragment);
-        //mBinding.testLinear.setLayoutManager(new LinearLayoutManager(mContext));
-        //setContentView(linearLayout);
-
-        //work
-
-
-/*        OverScreenFragment overScreenFragment = OverScreenFragment.getInstance();
-        mBinding.fcvTest.setTag(R.id.test_fragment, overScreenFragment);
-        mBinding.fcvTest.addView();*/
-
-
-
-/*        YourService mYourService = new YourService();
-        Intent mServiceIntent = new Intent(this, mYourService.getClass());
-        if (!isMyServiceRunning(mYourService.getClass())) {
-            startService(mServiceIntent);
-        }*/
     }
 
     private void openTimePicker() {

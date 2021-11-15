@@ -47,13 +47,9 @@ public class OverScreenService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         addMapItem();
-        // PendingIntent pendingIntent = intent.getParcelableExtra(Constants.PENDING_INTENT);
         int time = intent.getIntExtra(Constants.TIME, 5000);
         theme = getTheme(intent.getStringExtra(Constants.THEME_INTENT));
-        //theme.onStartCommand(pendingIntent); todo нужно вообще?
-        // startTimer(time);
         timerExecutable = new TimerExecutable(theme, time, windowManager);
-        Intent intents = new Intent().putExtra("cat", "Cat");
         LayoutInflater inflater = LayoutInflater.from(this);
         theme.onCreate(inflater);
 
@@ -64,7 +60,6 @@ public class OverScreenService extends Service {
 
         button.getFloatingFaceBubble().setOnClickListener(view -> {
             resultParams = new ResultParams(timerExecutable.getRemainingTime());
-            //     pendingIntent.send(this, Constants.SERVICE_OVER_SCREEN_REQUEST_CODE, intents);
             stopSelfResult(startId);
         });
 
@@ -100,46 +95,5 @@ public class OverScreenService extends Service {
         // TODO Auto-generated method stub
         return null;
     }
-
-    /*    private void startTimerAlpha(int timeAfter) {
-        new CountDownTimer(timeAfter, 100) {
-
-            public void onTick(long millisUntilFinished) {
-
-                if (theme.getParams().alpha < 1f) {
-                    Timber.i("" + millisUntilFinished);
-                    theme.getBinding().tvExplanationTextFactoryResetDialog
-                            .setText("seconds remaining: " + millisUntilFinished / 1000);
-                    theme.getParams().alpha = theme.getParams().alpha + 0.01f;
-                    windowManager.updateViewLayout(theme.getView(), theme.getParams());
-
-                }
-
-            }
-
-            public void onFinish() {
-                theme.getBinding().tvExplanationTextFactoryResetDialog
-                        .setText("Ты не смог победить прокрастинацию, ты вытащим тебя");
-
-            }
-        }.start();
-    }*/
-      /*    private void startTimer(int time) {
-      new CountDownTimer(time, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                theme.getBinding().tvExplanationTextFactoryResetDialog
-                        .setText("seconds remaining: " + millisUntilFinished / 1000);
-
-            }
-
-            public void onFinish() {
-                theme.getBinding().tvExplanationTextFactoryResetDialog
-                        .setText("done!");
-
-                // startTimerAlpha(timeAfter);
-            }
-        }.start();
-    }*/
 
 }
